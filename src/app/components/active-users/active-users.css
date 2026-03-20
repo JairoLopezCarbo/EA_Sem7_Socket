@@ -1,0 +1,36 @@
+.active-users-panel {
+  padding: 0.75rem 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.active-users-panel h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.active-users-panel ul {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.active-users-panel li {
+  background-color: #e2e8f0;
+  color: #475569;
+  border-radius: 999px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.empty-users {
+  margin: 0.5rem 0 0;
+  color: #94a3b8;
+  font-size: 0.82rem;
+}

@@ -1,0 +1,13 @@
+<section class="active-users-panel" aria-label="Usuarios activos">
+  <h3>Usuarios activos ({{ users().length }})</h3>
+
+  @if (users().length > 0) {
+    <ul>
+      @for (user of users(); track user) {
+        <li>{{ user }}</li>
+      }
+    </ul>
+  } @else {
+    <p class="empty-users">No hay usuarios conectados.</p>
+  }
+</section>

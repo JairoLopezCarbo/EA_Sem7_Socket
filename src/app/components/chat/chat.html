@@ -19,6 +19,8 @@
     </div>
   </header>
 
+  <app-active-users [users]="activeUsers"></app-active-users>
+
   <div class="chat-messages" id="chat-messages">
     <div class="message-list">
       @for (mensaje of mensajes; track mensaje._id) {

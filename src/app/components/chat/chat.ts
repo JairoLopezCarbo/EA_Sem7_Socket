@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Chat, Mensaje } from '../../services/chat';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ActiveUsersComponent } from '../active-users/active-users';
 
 @Component({
   selector: 'app-chat',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ActiveUsersComponent],
   templateUrl: './chat.html',
   styleUrl: './chat.css',
 })
@@ -20,13 +20,15 @@ export class ChatComponent implements OnInit, OnDestroy {
   
   public nuevoMensaje: string = '';
   public mensajes: Mensaje[] = [];
+  public activeUsers: string[] = [];
 
   public typingUser: string | null = null;
 
   private messageSub!: Subscription;
+  private activeUsersSub!: Subscription;
   private typingSub!: Subscription;
   private stopTypingSub!: Subscription;
-  private typingTimeout: any;
+  private typingTimeout!: ReturnType<typeof setTimeout>;
 
   constructor(
     private chatService: Chat,
@@ -46,6 +48,13 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.router.navigate(['/login']);
       return;
     }
+
+    this.chatService.connect(this.usuarioActivoName || this.usuarioActivo);
+
+    this.activeUsersSub = this.chatService.onActiveUsers().subscribe((users) => {
+      this.activeUsers = users;
+      this.cdr.detectChanges();
+    });
 
     this.chatService.getHistory().subscribe((history: Mensaje[]) => {
       this.mensajes = history;
@@ -72,6 +81,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.messageSub) this.messageSub.unsubscribe();
+    if (this.activeUsersSub) this.activeUsersSub.unsubscribe();
     if (this.typingSub) this.typingSub.unsubscribe();
     if (this.stopTypingSub) this.stopTypingSub.unsubscribe();
     this.chatService.disconnect();
